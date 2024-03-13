@@ -19,7 +19,9 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
     volumes:
-      - open-webui:/app/backend/data
+      - type: volume
+        source: open-webui
+        target: /app/backend/data
       - type: bind
         source: /app/litellm/config.yaml
         target: /app/backend/data/litellm/config.yaml
