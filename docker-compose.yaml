@@ -19,12 +19,8 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
     volumes:
-      - type: volume
-        source: open-webui
-        target: /app/backend/data
-      - type: bind
-        source: app/litellm/config.yaml
-        target: /app/backend/data/litellm/config.yaml
+      - open-webui:/app/backend/data
+      - app/litellm/config.yaml:/app/backend/data/litellm/config.yaml
     depends_on:
       - ollama
     ports:
@@ -37,5 +33,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  ollama: {}
-  open-webui: {}
+  ollama: 
+    external: true
+  open-webui:
+    external: true
