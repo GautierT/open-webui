@@ -23,7 +23,7 @@ services:
         source: open-webui
         target: /app/backend/data
       - type: bind
-        source: /app/litellm/config.yaml
+        source: app/litellm/config.yaml
         target: /app/backend/data/litellm/config.yaml
     depends_on:
       - ollama
