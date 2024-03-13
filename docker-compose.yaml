@@ -20,7 +20,9 @@ services:
     container_name: open-webui
     volumes:
       - open-webui:/app/backend/data
-      - /app/litellm/config.yaml:/app/backend/data/litellm/config.yaml
+      - type: bind
+        source: /app/litellm/config.yaml
+        target: /app/backend/data/litellm/config.yaml
     depends_on:
       - ollama
     ports:
