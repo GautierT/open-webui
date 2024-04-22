@@ -1,15 +1,6 @@
 version: '3.8'
 
 services:
-  ollama:
-    volumes:
-      - ollama:/root/.ollama
-    container_name: ollama
-    pull_policy: always
-    tty: true
-    restart: unless-stopped
-    image: ollama/ollama:${OLLAMA_DOCKER_TAG-latest}
-
   open-webui:
     build:
       context: .
@@ -21,12 +12,9 @@ services:
     volumes:
       - open-webui:/app/backend/data
       - /data/perso/config.yaml:/app/backend/data/litellm/config.yaml
-    depends_on:
-      - ollama
     ports:
       - ${OPEN_WEBUI_PORT-3000}:8080
     environment:
-      - 'OLLAMA_BASE_URL=http://ollama:11434'
       - 'WEBUI_SECRET_KEY='
     extra_hosts:
       - host.docker.internal:host-gateway
