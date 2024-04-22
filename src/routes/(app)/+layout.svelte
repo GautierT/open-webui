@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { toast } from 'svelte-sonner';
+	import { onMount, tick, getContext } from 'svelte';
 	import { openDB, deleteDB } from 'idb';
 	import fileSaver from 'file-saver';
 	const { saveAs } = fileSaver;
 
-	import { onMount, tick } from 'svelte';
 	import { goto } from '$app/navigation';
 
 	import { getOllamaModels, getOllamaVersion } from '$lib/apis/ollama';
@@ -35,6 +35,8 @@
 	import ShortcutsModal from '$lib/components/chat/ShortcutsModal.svelte';
 	import ChangelogModal from '$lib/components/ChangelogModal.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
+
+	const i18n = getContext('i18n');
 
 	let ollamaVersion = '';
 	let loaded = false;
@@ -104,11 +106,7 @@
 				// IndexedDB Not Found
 			}
 
-			console.log();
-
 			await models.set(await getModels());
-			await tick();
-
 			await settings.set(JSON.parse(localStorage.getItem('settings') ?? '{}'));
 
 			await modelfiles.set(await getModelfiles(localStorage.token));
@@ -199,7 +197,7 @@
 
 {#if loaded}
 	<div class=" hidden lg:flex fixed bottom-0 right-0 px-3 py-3 z-10">
-		<Tooltip content="help" placement="left">
+		<Tooltip content="Help" placement="left">
 			<button
 				id="show-shortcuts-button"
 				bind:this={showShortcutsButtonElement}
@@ -240,7 +238,7 @@
 										location.href = '/';
 									}}
 								>
-									Check Again
+									{$i18n.t('Check Again')}
 								</button>
 
 								<button
@@ -248,7 +246,7 @@
 									on:click={async () => {
 										localStorage.removeItem('token');
 										location.href = '/auth';
-									}}>Sign Out</button
+									}}>{$i18n.t('Sign Out')}</button
 								>
 							</div>
 						</div>
@@ -267,12 +265,14 @@
 							</div>
 
 							<div class=" mt-4 text-center text-sm dark:text-gray-200 w-full">
-								Saving chat logs directly to your browser's storage is no longer supported. Please
-								take a moment to download and delete your chat logs by clicking the button below.
-								Don't worry, you can easily re-import your chat logs to the backend through <span
-									class="font-semibold dark:text-white">Settings > Chats > Import Chats</span
-								>. This ensures that your valuable conversations are securely saved to your backend
-								database. Thank you!
+								{$i18n.t(
+									"Saving chat logs directly to your browser's storage is no longer supported. Please take a moment to download and delete your chat logs by clicking the button below. Don't worry, you can easily re-import your chat logs to the backend through"
+								)}
+								<span class="font-semibold dark:text-white"
+									>{$i18n.t('Settings')} > {$i18n.t('Chats')} > {$i18n.t('Import Chats')}</span
+								>. {$i18n.t(
+									'This ensures that your valuable conversations are securely saved to your backend database. Thank you!'
+								)}
 							</div>
 
 							<div class=" mt-6 mx-auto relative group w-fit">
@@ -298,7 +298,7 @@
 									class="text-xs text-center w-full mt-2 text-gray-400 underline"
 									on:click={async () => {
 										localDBChats = [];
-									}}>Close</button
+									}}>{$i18n.t('Close')}</button
 								>
 							</div>
 						</div>
