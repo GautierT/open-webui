@@ -16,6 +16,8 @@ services:
       - ${OPEN_WEBUI_PORT-3000}:8080
     environment:
       - 'WEBUI_SECRET_KEY='
+      - LITELLM_PROXY_PORT=${LITELLM_PROXY_PORT}
+      - LITELLM_PROXY_HOST=${LITELLM_PROXY_HOST}
     extra_hosts:
       - host.docker.internal:host-gateway
     restart: unless-stopped
