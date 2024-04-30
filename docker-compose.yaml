@@ -11,7 +11,7 @@ services:
     container_name: open-webui
     volumes:
       - open-webui:/app/backend/data
-      - /data/perso/config.yaml:/app/backend/data/litellm/config.yaml
+      - /data/litellm/litellm_config.yaml:/app/backend/data/litellm/config.yaml
     ports:
       - ${OPEN_WEBUI_PORT-3000}:8080
     environment:
